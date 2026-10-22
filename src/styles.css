@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@import "@fontsource/ibm-plex-sans-jp/latin-400.css";
+@import "@fontsource/ibm-plex-sans-jp/latin-600.css";
+@import "@fontsource/ibm-plex-sans-jp/japanese-400.css";
+@import "@fontsource/ibm-plex-sans-jp/japanese-600.css";
+@import "@fontsource/shippori-mincho/latin-600.css";
+@import "@fontsource/shippori-mincho/japanese-600.css";
+
+@theme {
+  --color-bg: #12100c;
+  --color-surface: #1c1914;
+  --color-raised: #262119;
+  --color-fg: #f3eee4;
+  --color-muted: #9c917f;
+  --color-honey: #e6b23c;
+  --color-line: #3a3328;
+  --color-nick0: #f3eee4;
+  --color-nick1: #e6b23c;
+  --color-nick2: #c4b49a;
+  --color-nick3: #efe2b8;
+  --color-nick4: #d9a15a;
+  --color-nick5: #c4a06a;
+  --font-sans: "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --font-display: "Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --radius-card: 1rem;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html,
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-synthesis: none;
+  }
+
+  body {
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-honey) 35%, transparent);
+    color: var(--color-fg);
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.burst-cell {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hex-burst 1.55s cubic-bezier(0.16, 0.72, 0.22, 1) infinite;
+  opacity: 0;
+}
+
+@keyframes hex-burst {
+  0% {
+    opacity: 0;
+    filter: blur(0);
+    transform: translate(calc(var(--x) * -1), calc(var(--y) * -1)) scale(0.18);
+  }
+  12% {
+    opacity: 0.95;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(7px);
+    transform: translate(calc(var(--x) * 0.72), calc(var(--y) * 0.72)) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .burst-cell {
+    animation: none;
+    opacity: 0.8;
+    filter: none;
+    transform: none;
+  }
+}
