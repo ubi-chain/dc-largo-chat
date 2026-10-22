@@ -11,7 +11,7 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: APP_NAME },
-      { name: "theme-color", content: "#12100c" },
+      { name: "theme-color", content: "#ffffff" },
       {
         name: "description",
         content: "同じ回線は同じ部屋。IRCのチャットと、短い技術の質問。",

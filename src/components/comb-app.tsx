@@ -19,6 +19,7 @@ import {
   type QuestionCard,
   type RoomInfo,
 } from "@/lib/hive.functions";
+import { HoneyField } from "@/components/honey-load";
 import { loadIdentity, NICK_CLASS, nickTone, normalizeNick, saveIdentity, type Identity } from "@/lib/identity";
 
 const RULES = [
@@ -354,8 +355,9 @@ export function CombApp() {
     room?.kind === "link" && room.id === linkRoom?.id ? "この回線" : room?.kind === "street" ? "大通り" : (room?.label ?? "部屋");
 
   return (
-    <div className="flex h-dvh flex-col bg-bg text-fg md:flex-row">
-      <aside className="shrink-0 border-b border-line bg-surface md:flex md:w-64 md:flex-col md:border-r md:border-b-0">
+    <div className="relative flex h-dvh flex-col overflow-hidden bg-bg text-fg md:flex-row">
+      <HoneyField />
+      <aside className="relative z-10 shrink-0 border-b border-line bg-surface/90 md:flex md:w-64 md:flex-col md:border-r md:border-b-0">
         <div className="flex items-start justify-between gap-3 px-4 pt-4 pb-3">
           <div>
             <p className="font-display text-xl leading-none tracking-wide">LARGO-CHAT</p>
@@ -419,7 +421,7 @@ export function CombApp() {
         </div>
       </aside>
 
-      <section className="flex min-h-0 min-w-0 flex-1 flex-col">
+      <section className="relative z-10 flex min-h-0 min-w-0 flex-1 flex-col">
         <header className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm text-muted">{room?.kind === "link" ? "回線の部屋" : room?.kind === "code" ? "合い言葉" : "公開"}</p>
@@ -489,7 +491,7 @@ export function CombApp() {
                 </ol>
               )}
             </div>
-            <form onSubmit={onSend} className="flex gap-2 border-t border-line bg-surface p-3">
+            <form onSubmit={onSend} className="flex gap-2 border-t border-line bg-surface/90 p-3">
               <label className="sr-only" htmlFor="line">
                 メッセージ
               </label>
@@ -633,7 +635,7 @@ export function CombApp() {
         )}
       </section>
 
-      <aside className="hidden w-72 shrink-0 flex-col border-l border-line bg-surface lg:flex">
+      <aside className="relative z-10 hidden w-72 shrink-0 flex-col border-l border-line bg-surface/90 lg:flex">
         <Spec />
       </aside>
 

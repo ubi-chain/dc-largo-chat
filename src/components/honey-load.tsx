@@ -31,7 +31,7 @@ function honeycomb(maxRing: number, size: number): Cell[] {
   }));
 }
 
-const CELLS = honeycomb(3, 22);
+const FIELD = honeycomb(11, 42);
 
 function hexPoints(cx: number, cy: number, radius: number): string {
   const pts: string[] = [];
@@ -42,6 +42,39 @@ function hexPoints(cx: number, cy: number, radius: number): string {
   return pts.join(" ");
 }
 
+export function HoneyField({ burst = false }: { burst?: boolean }) {
+  return (
+    <svg
+      viewBox="-780 -520 1560 1040"
+      preserveAspectRatio="xMidYMid slice"
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      aria-hidden="true"
+    >
+      {FIELD.map((cell) => (
+        <polygon
+          key={`${cell.x}:${cell.y}`}
+          points={hexPoints(cell.x, cell.y, 22)}
+          className={burst ? "burst-cell" : undefined}
+          fill={cell.fill ? "var(--color-honey)" : "transparent"}
+          fillOpacity={burst ? 0.9 : cell.fill ? 0.14 : 0}
+          stroke="var(--color-honey)"
+          strokeOpacity={burst ? 0.9 : 0.45}
+          strokeWidth={cell.fill ? 0 : 1.6}
+          style={
+            burst
+              ? {
+                  ["--x" as string]: `${cell.x}px`,
+                  ["--y" as string]: `${cell.y}px`,
+                  animationDelay: `${cell.ring * 70}ms`,
+                }
+              : undefined
+          }
+        />
+      ))}
+    </svg>
+  );
+}
+
 export function HoneyLoad({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -50,29 +83,11 @@ export function HoneyLoad({ onDone }: { onDone: () => void }) {
   }, [onDone]);
 
   return (
-    <div className="flex h-dvh flex-col items-center justify-center bg-bg text-fg">
-      <div className="relative h-80 w-80">
-        <svg viewBox="0 0 400 400" className="h-full w-full" aria-hidden="true">
-          {CELLS.map((cell) => (
-            <polygon
-              key={`${cell.x}:${cell.y}`}
-              points={hexPoints(200 + cell.x, 200 + cell.y, 12)}
-              className="burst-cell"
-              fill={cell.fill ? "var(--color-honey)" : "transparent"}
-              stroke="var(--color-honey)"
-              strokeWidth={cell.fill ? 0 : 1.4}
-              style={{
-                ["--x" as string]: `${cell.x}px`,
-                ["--y" as string]: `${cell.y}px`,
-                animationDelay: `${cell.ring * 110}ms`,
-              }}
-            />
-          ))}
-        </svg>
-        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-          <p className="font-display text-3xl tracking-wide text-fg">LARGO-CHAT</p>
-          <p className="mt-2 text-sm text-muted">部屋を開けている</p>
-        </div>
+    <div className="relative flex h-dvh flex-col items-center justify-center overflow-hidden bg-bg text-fg">
+      <HoneyField burst />
+      <div className="relative z-10 flex flex-col items-center">
+        <p className="font-display text-3xl tracking-wide text-fg">LARGO-CHAT</p>
+        <p className="mt-2 text-sm text-muted">部屋を開けている</p>
       </div>
     </div>
   );
